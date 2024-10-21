@@ -1,61 +1,76 @@
 ---
 interface Props {
-	title: string;
-	body: string;
-	href: string;
+  title: string;
+  emoji: string;
+  body: string;
+  img: string;
+  href: string;
 }
 
-const { href, title, body } = Astro.props;
+const { href, title, body, img, emoji }: Props = Astro.props;
+
+const colors: { [key: string]: string } = {
+  "✋": "#fceed8",
+  "🥅": "#dee9fc",
+  "💬": "#fbe5e6",
+};
+
+const color = colors[emoji] || "#fceed8";
 ---
 
-<li class="link-card">
-	<a href={href}>
-		<h2>
-			{title}
-			<span>&rarr;</span>
-		</h2>
-		<p>
-			{body}
-		</p>
-	</a>
-</li>
+<article>
+  <a href={href}>
+    <div style={`background-color: ${color}`}>{emoji}</div>
+    <h2>
+      {title}
+    </h2>
+    <p>
+      {body}
+    </p>
+    <img src={img} alt={title} />
+  </a>
+</article>
 <style>
-	.link-card {
-		list-style: none;
-		display: flex;
-		padding: 1px;
-		background-color: #23262d;
-		background-image: none;
-		background-size: 400%;
-		border-radius: 7px;
-		background-position: 100%;
-		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  article {
+    padding: 2rem;
+    background-color: #212936;
+    border-radius: 10px;
+    width: 250px;
+		transition: 0.5s;
+		transform: scale(1);
+  }
+	article:hover {
+		scale: 1.05;
+		transition: 0.5s;
+		transform: scale(1.05);
 	}
-	.link-card > a {
+  a {
+    text-decoration: none;
+    color: white;
 		width: 100%;
-		text-decoration: none;
-		line-height: 1.4;
-		padding: calc(1.5rem - 1px);
-		border-radius: 8px;
-		color: white;
-		background-color: #23262d;
-		opacity: 0.8;
-	}
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
-	.link-card:is(:hover, :focus-within) {
-		background-position: 0;
-		background-image: var(--accent-gradient);
-	}
-	.link-card:is(:hover, :focus-within) h2 {
-		color: rgb(var(--accent-light));
-	}
+  }
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #e5e7eb;
+  }
+  p {
+    color: #9da3ae;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
 </style>
